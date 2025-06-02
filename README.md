@@ -3,8 +3,6 @@
 
 > A transformer-based QA model with DeBERTa and SQuAD v2 logic — span prediction meets answerability.
 
-![qa-model-diagram](./assets/qa_model_architecture.png)
-
 This repository contains a **work-in-progress extractive question answering system** that leverages the power of **transformer models** to understand and answer natural language queries based on context. The model is inspired by the **SQuAD v2** dataset structure, which includes both **answerable and unanswerable** questions.
 
 ---
@@ -48,18 +46,18 @@ The model is currently built using `microsoft/deberta-v3-base` and is designed t
 
 ## 🧠 Model Architecture
 
-          Input Pair (Question + Context)
+        Input Pair (Question + Context)
                       ↓
             Tokenization (DeBERTa)
                       ↓
-         Transformer Embeddings (hidden states)
+       Transformer Embeddings (hidden states)
                       ↓
-  ┌─────────────────────────────┐
-  │   QA Head (Start / End)     │
-  │   Answerability Classifier  │
-  └─────────────────────────────┘
+        ┌─────────────────────────────┐
+        │   QA Head (Start / End)     │
+        │   Answerability Classifier  │
+        └─────────────────────────────┘
                       ↓
-          Prediction: Start, End, Answerable?
+      Prediction: Start, End, Answerable?
 
 
 The model performs multi-head classification, simultaneously predicting:
