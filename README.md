@@ -48,3 +48,99 @@ The model is currently built using `microsoft/deberta-v3-base` and is designed t
 
 ## 🧠 Model Architecture
 
+          Input Pair (Question + Context)
+                      ↓
+            Tokenization (DeBERTa)
+                      ↓
+         Transformer Embeddings (hidden states)
+                      ↓
+  ┌─────────────────────────────┐
+  │   QA Head (Start / End)     │
+  │   Answerability Classifier  │
+  └─────────────────────────────┘
+                      ↓
+          Prediction: Start, End, Answerable?
+
+
+The model performs multi-head classification, simultaneously predicting:
+- **Answer span (start, end tokens)**
+- **Binary label for answerability**
+
+---
+
+## 🧪 Training & Evaluation Features
+
+- `Exact Match (EM)` and `F1 Score` for span prediction
+- `Classification Report` for answerability (Has Answer / No Answer)
+- `Semantic Penalty` to penalize semantically inconsistent predictions
+- `False Match Logging` to analyze partially correct answers (`false_matches_log.txt`)
+- `Early Stopping` based on validation F1 performance
+
+---
+
+## 🚧 Planned Extensions & Experimental Ideas
+
+This repository is an open research environment — multiple improvements and experiments are under consideration:
+
+- [ ] **FGM (Fast Gradient Method):** Incorporate adversarial examples during training to improve model robustness
+- [ ] **Teacher-Student Distillation:** Leverage stronger models (e.g., `deepset/deberta-v3-large`) as teachers for lighter student models
+- [ ] **Curriculum Learning:** Train the model from easier to harder questions progressively
+- [ ] **Confidence Thresholding:** Dynamically reject low-confidence answers in no-answer scenarios
+- [ ] **Cross-Attention Fusion:** Integrate external semantic features (e.g., SBERT) alongside DeBERTa token embeddings
+- [ ] **Attention Visualization:** Use gradient-based attention heatmaps to visualize model focus during inference
+
+If you are interested in these topics, feel free to follow the project or contribute!
+
+---
+
+## 📊 Evaluation Metrics: Understanding EM and F1
+
+In extractive question answering tasks, **Exact Match (EM)** and **F1 Score** are two fundamental evaluation metrics used to measure how well the model's predicted answers align with the ground truth answers.
+
+- **Exact Match (EM):**  
+  EM measures the percentage of predictions that match exactly with the reference answer span. It is a strict metric that only counts a prediction as correct if it perfectly matches the ground truth text (after normalization such as lowercasing and removing punctuation). This metric reflects the model’s ability to pinpoint the exact answer span.
+
+- **F1 Score:**  
+  F1 is the harmonic mean of precision and recall calculated at the token level between the predicted and ground truth answer spans. It provides a more forgiving and nuanced evaluation by rewarding partial overlaps. F1 is especially important when the model's predicted answer is close but not an exact match, which is common in natural language.
+
+Together, these metrics provide complementary perspectives on model performance:
+
+- **EM highlights exact correctness** — crucial in applications requiring precise answers.  
+- **F1 captures partial correctness and relevance**, allowing some flexibility in phrasing.
+
+In SQuAD v2-style datasets, which include both answerable and unanswerable questions, monitoring these metrics ensures the model not only finds accurate spans but also correctly identifies when no answer exists.
+
+---
+
+### Why Focus on EM and F1 Alongside Loss?
+
+While the **training loss** (e.g., CrossEntropyLoss) indicates how well the model is optimizing its parameters to minimize prediction errors, it does not directly measure the quality or usefulness of the predicted answers in a real-world sense.
+
+- **Loss reflects model confidence and error at a token/prediction level**, but may not correlate perfectly with exact or partial correctness of answers.
+- **EM and F1 measure the end-goal performance**: how accurately the model finds the correct answer span and whether it produces meaningful answers.
+- Tracking EM and F1 during validation gives a clearer picture of real-world effectiveness and helps to detect overfitting or underfitting beyond loss trends.
+- In QA tasks, a model can have low loss but still produce answers that do not match ground truth spans well; hence, EM and F1 are crucial metrics to evaluate final performance.
+
+Therefore, alongside loss, focusing on EM and F1 ensures a more comprehensive and practical evaluation of the model’s ability to answer questions correctly and meaningfully.
+
+---
+
+## 📈 Example Metrics (Dummy Snapshot)
+Epoch 5/15
+Train Loss: 0.4312 | Val EM: 72.3 | Val F1: 81.6
+Answerability Accuracy: 92.1%
+
+
+---
+
+## 💡 Why This Project?
+
+This project is for anyone curious about:
+
+- How modern QA systems handle **unanswerable questions**
+- Building **lightweight yet powerful extractive QA** models
+- Working with **transformers and token-level classification**
+- Exploring **hybrid evaluation strategies** (exact match + answerability)
+
+
+
