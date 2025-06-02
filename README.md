@@ -125,8 +125,8 @@ Therefore, alongside loss, focusing on EM and F1 ensures a more comprehensive an
 
 ## 📈 Example Metrics (Dummy Snapshot)
 Epoch 5/15
-Train Loss: 0.4312 | Val EM: 72.3 | Val F1: 81.6
-Answerability Accuracy: 92.1%
+Validation Loss: 0.6309 | EM: 72.25 | F1: 83.28
+Answerability Accuracy: 94.1%
 
 
 ---
