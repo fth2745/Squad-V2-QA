@@ -109,7 +109,7 @@ F1 accounts for partial correctness at the token level.
 
 BERTScore F1 measures semantic fidelity, regardless of token or phrase surface form.
 
-In SQuAD v2-style settings, where the dataset includes both answerable and unanswerable questions, relying on only one metric (e.g., EM or F1) can lead to misleading conclusions. BERTScore complements traditional metrics by providing a semantic lens, which is crucial for evaluating real-world generalization and robustness of the model.
+> In SQuAD v2-style settings, where the dataset includes both answerable and unanswerable questions, relying on only one metric (e.g., EM or F1) can lead to misleading conclusions. BERTScore complements traditional metrics by providing a semantic lens, which is crucial > for evaluating real-world generalization and robustness of the model.
 ---
 
 ### Why Focus on EM and F1 Alongside Loss?
